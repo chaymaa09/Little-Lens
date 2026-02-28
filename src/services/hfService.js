@@ -1,4 +1,4 @@
-import { HF_API_KEY } from "../config";
+import { HUGGINGFACE_API_KEY as HF_API_KEY } from "../config";
 
 export async function generateImageFromPrompt(promptText) {
   if (!promptText?.trim()) {

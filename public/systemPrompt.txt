@@ -46,7 +46,7 @@ The JSON must strictly follow this schema:
       "animation_cues": [
         {
           "timestamp_seconds": number,
-          "type": "string (pan, zoom, fade, cut, transition)",
+          "type": "string (pan-right, pan-left, zoom-in, zoom-out, subtle-pan)",
           "description": "string",
           "duration_seconds": number
         }
@@ -65,8 +65,10 @@ Requirements:
 
 1- Generate **exactly 3 scenes** (no more, no less).  
 2️- Keep the story **simple, vivid, and easy for children under 3 to understand**.  
+1- Generate **exactly 6 scenes** (no more, no less).  
+2️- Keep the story **simple, vivid, and early-childhood friendly (Pixar/Disney 3D style)**.  
 3️- Each scene should illustrate **a clear action, habit, or moral lesson**.  
-4️- Image prompts must be **ready to paste directly into Midjourney, DALL-E, or Stable Diffusion**.  
+4️- Image prompts must be **ultra-vibrant, high-contrast, with soft rounded character designs**. Ready to paste into Midjourney.  
 5️- Make narration **short, playful, and clear** with 2–4 sentences per scene.  
 6️- Scenes should flow naturally, showing step-by-step actions or events.  
 7️- Ensure **character appearance and colors are consistent** across all scenes. 
@@ -75,13 +77,16 @@ Requirements:
 - Do NOT invent new sounds.  
 9- Assign 1-2 sounds max per scene, matching the scene’s action and emotional arc.  
 - Example: if it is morning and cheerful, choose "birds_chirping". if the carachter get hurt use the "aye" sound.   
-10- image_prompt: Focus on the elements that are common across all scenes. This includes recurring characters, the general environment, background details, and decorations that stay consistent. Think of it as the “baseline” or template of your world.
-11- scene_prompt: Focus on the specifics that vary per scene. Describe characters’ actions, interactions, and any objects or details that change from scene to scene. This makes each scene unique while keeping the common elements from image_prompt.
+10- image_prompt: Focus on the elements that are common across all scenes. Use keywords like "ultra-vibrant", "3D render", "Pixar style", "soft lighting", "high contrast".
+11- scene_prompt: Focus on the specifics that vary per scene. Describe characters’ actions clearly.
 
 Example Input: `"write a story about a girl getting ready for school"`  
-Example Output (3 scenes):  
-- Scene 1: Maya brushing her teeth.  
-- Scene 2: Maya eating breakfast.  
-- Scene 3: Maya getting dressed and leaving for school.  
+Example Output (6 scenes):  
+- Scene 1: Maya waking up with a big stretch.  
+- Scene 2: Maya brushing her teeth with sparkly bubbles.  
+- Scene 3: Maya picking her favorite yellow dress.  
+- Scene 4: Maya eating crunchy cereal with her dog Bluey.  
+- Scene 5: Maya waving goodbye to her toys.
+- Scene 6: Maya skipping to the yellow school bus.  
 
 Generate now.
