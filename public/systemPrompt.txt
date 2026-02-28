@@ -75,6 +75,8 @@ Requirements:
 - Do NOT invent new sounds.  
 9- Assign 1-2 sounds max per scene, matching the scene’s action and emotional arc.  
 - Example: if it is morning and cheerful, choose "birds_chirping". if the carachter get hurt use the "aye" sound.   
+10- image_prompt: Focus on the elements that are common across all scenes. This includes recurring characters, the general environment, background details, and decorations that stay consistent. Think of it as the “baseline” or template of your world.
+11- scene_prompt: Focus on the specifics that vary per scene. Describe characters’ actions, interactions, and any objects or details that change from scene to scene. This makes each scene unique while keeping the common elements from image_prompt.
 
 Example Input: `"write a story about a girl getting ready for school"`  
 Example Output (3 scenes):  

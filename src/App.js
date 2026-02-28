@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { generateStoryFromPrompt } from "./services/mistralService";
+import { generateImageFromPrompt } from "./services/hfService";
 
 function App() {
   const [prompt, setPrompt] = useState("");
@@ -8,6 +9,8 @@ function App() {
   const [error, setError] = useState(null);
   const [activeScene, setActiveScene] = useState(0);
   const [view, setView] = useState("visual"); // visual | raw
+  const [sceneImages, setSceneImages] = useState({}); // { 0: "data:...", 1: "data:...", ... }
+  const [imagesLoading, setImagesLoading] = useState(false);
   
   const [systemPrompt, setSystemPrompt] = useState("");
   useEffect(() => {
@@ -44,6 +47,42 @@ function App() {
 
       setStory(jsonOutput);
       setActiveScene(0);
+
+      // Generate images for all scenes
+      if (jsonOutput?.scenes?.length) {
+        setImagesLoading(true);
+        const fullPrompt = jsonOutput?.full_prompt; // Root-level prompt describing characters & environment
+        const imagePromises = jsonOutput.scenes.map(async (s, index) => {
+          const scenePrompt = s?.image_prompt?.scene_prompt;
+          // Combine full prompt (shared elements) with scene-specific prompt
+          const combinedPrompt = [
+          fullPrompt ? `the context of the image is : ${fullPrompt}` : "",
+          scenePrompt ? `\n now i want you to generate this image :  ${scenePrompt}` : ""
+        ].filter(Boolean).join(". ");
+          if (!combinedPrompt) {
+            console.warn(`Scene ${index} has no image prompt`);
+            return { index, url: null };
+          }
+          try {
+            const url = await generateImageFromPrompt(combinedPrompt);
+            console.log(`Generated image for scene ${index}:`, url?.slice(0, 50) + "...");
+            return { index, url };
+          } catch (err) {
+            console.error(`Failed to generate image for scene ${index}:`, err);
+            return { index, url: null };
+          }
+        });
+
+        Promise.all(imagePromises).then((results) => {
+          const images = {};
+          results.forEach(({ index, url }) => {
+            if (url) images[index] = url;
+          });
+          setSceneImages(images);
+          setImagesLoading(false);
+          console.log("All scene images generated:", Object.keys(images));
+        });
+      }
     } catch (e) {
       console.error("Error during generate():", e);
       setError(e.message || "Failed to generate story. Please try again.");
@@ -51,7 +90,9 @@ function App() {
       setLoading(false);
     }
   };
+
   const scene = story?.scenes?.[activeScene];
+  const currentSceneImage = sceneImages[activeScene];
 
   return (
     <div style={{
@@ -150,7 +191,7 @@ function App() {
             <div style={{ maxWidth: 900, margin: "0 auto" }}>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
                 <div style={{ fontSize: 12, color: "#8a7a60", letterSpacing: "0.2em", textTransform: "uppercase" }}>JSON Blueprint</div>
-                <button onClick={() => { setStory(null); setPrompt(""); }} style={{
+                <button onClick={() => { setStory(null); setPrompt(""); setSceneImages({}); }} style={{
                   padding: "6px 16px", background: "transparent", border: "1px solid #3a3020",
                   color: "#8a7a60", cursor: "pointer", borderRadius: 4, fontSize: 12
                 }}>← New Story</button>
@@ -179,7 +220,7 @@ function App() {
                   <h1 style={{ margin: 0, fontSize: 28, color: "#e8d9b0", fontStyle: "italic" }}>{story.title}</h1>
                   <p style={{ margin: "8px 0 0", color: "#a09070", fontSize: 15, fontStyle: "italic" }}>{story.logline}</p>
                 </div>
-                <button onClick={() => { setStory(null); setPrompt(""); }} style={{
+                <button onClick={() => { setStory(null); setPrompt(""); setSceneImages({}); }} style={{
                   padding: "8px 20px", background: "transparent", border: "1px solid #3a3020",
                   color: "#8a7a60", cursor: "pointer", borderRadius: 4, fontSize: 12
                 }}>← New Story</button>
@@ -239,6 +280,31 @@ function App() {
                   }}>
                     <div style={{ fontSize: 10, letterSpacing: "0.3em", color: "#8a7a60", textTransform: "uppercase", marginBottom: 10 }}>Narration</div>
                     <p style={{ margin: 0, fontSize: 17, lineHeight: 1.8, color: "#e0d0b0", fontStyle: "italic" }}>"{scene.narration}"</p>
+                  </div>
+
+                  {/* Scene Image */}
+                  <div style={{
+                    gridColumn: "1 / -1", background: "#12100e",
+                    border: "1px solid #2a2416", borderRadius: 8, padding: 20,
+                    display: "flex", flexDirection: "column", alignItems: "center"
+                  }}>
+                    <div style={{ fontSize: 10, letterSpacing: "0.3em", color: "#8a7a60", textTransform: "uppercase", marginBottom: 12 }}>🖼️ Scene Image</div>
+                    {imagesLoading && !currentSceneImage ? (
+                      <div style={{ color: "#8a7a60", fontSize: 14, padding: 40 }}>⏳ Generating image...</div>
+                    ) : currentSceneImage ? (
+                      <img 
+                        src={currentSceneImage} 
+                        alt={`Scene ${activeScene + 1}`}
+                        style={{ 
+                          maxWidth: "100%", 
+                          maxHeight: 500, 
+                          borderRadius: 8,
+                          border: "1px solid #3a2a10"
+                        }} 
+                      />
+                    ) : (
+                      <div style={{ color: "#6a5a40", fontSize: 13, padding: 40 }}>No image available</div>
+                    )}
                   </div>
 
                   {/* Setting */}
@@ -364,4 +430,5 @@ function App() {
     </div>
   );
 }
+
 export default App;
