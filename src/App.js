@@ -139,10 +139,11 @@ function App() {
         </div>
       </div>
 
-      <div style={{ maxWidth: 680, margin: "0 auto", padding: "0 20px 60px" }}>
+      <div style={{ margin: "0 auto", padding: "0 32px 60px" }}>
 
         {/* === INPUT SCREEN === */}
         {!story && (
+          <div style={{ maxWidth: 680, margin: "0 auto" }}>
           <div style={{
             background: "rgba(255,255,255,0.85)",
             backdropFilter: "blur(20px)",
@@ -200,6 +201,7 @@ function App() {
               </div>
             )}
           </div>
+          </div>
         )}
 
         {/* === STORY BOOK VIEW === */}
@@ -237,7 +239,7 @@ function App() {
               backdropFilter: "blur(20px)",
               borderRadius: "0 0 28px 28px",
               boxShadow: "0 12px 40px rgba(108,99,255,0.08), 0 4px 12px rgba(0,0,0,0.04)",
-              padding: "0 36px 36px",
+              padding: "0 48px 40px",
               border: "1px solid rgba(108,99,255,0.08)",
               borderTop: "none",
               position: "relative"
@@ -269,11 +271,11 @@ function App() {
                   {/* Scene image */}
                   <div style={{
                     background: "linear-gradient(135deg, #f0eeff 0%, #fdf0f5 50%, #f0faf7 100%)",
-                    borderRadius: 20, padding: 14,
+                    borderRadius: 24, padding: 16,
                     display: "flex", justifyContent: "center", alignItems: "center",
-                    minHeight: 260,
+                    minHeight: 280,
                     border: `1px solid ${accentColor}20`,
-                    marginBottom: 26
+                    marginBottom: 28
                   }}>
                     {imagesLoading && !currentSceneImage ? (
                       <div style={{ color: "#9ca3af", fontSize: 15, padding: 48, textAlign: "center" }}>
@@ -291,8 +293,9 @@ function App() {
                         src={currentSceneImage}
                         alt={`Scene ${activeScene + 1}`}
                         style={{
-                          maxWidth: "100%", maxHeight: 420,
-                          borderRadius: 14,
+                          width: "80%", maxHeight: 400,
+                          objectFit: "cover",
+                          borderRadius: 18,
                           boxShadow: `0 8px 30px ${accentColor}20`
                         }}
                       />
@@ -321,8 +324,8 @@ function App() {
                     marginBottom: 8
                   }}>
                     <p style={{
-                      margin: 0, fontSize: 18, lineHeight: 2,
-                      color: "#3b3660", fontWeight: 400, textAlign: "center"
+                      margin: 0, fontSize: 17, lineHeight: 2,
+                      color: "black", fontWeight: 400, textAlign: "center"
                     }}>
                       {scene.narration}
                     </p>
