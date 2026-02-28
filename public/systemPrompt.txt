@@ -8,7 +8,7 @@ The JSON must strictly follow this schema:
   "logline": "string (one sentence summary of the story)",
   "tone": "string (e.g., whimsical, cheerful, gentle, playful)",
   "total_duration_seconds": number,
-  "background_music": {
+  "global_music": {
     "mood": "string",
     "tempo": "string (slow, moderate, fast)",
     "instruments": ["array of instruments suitable for young children"],
@@ -63,7 +63,7 @@ The JSON must strictly follow this schema:
 
 Requirements:
 
-1- Generate **exactly 5 scenes** (no more, no less).  
+1- Generate **exactly 3 scenes** (no more, no less).  
 2️- Keep the story **simple, vivid, and easy for children under 3 to understand**.  
 3️- Each scene should illustrate **a clear action, habit, or moral lesson**.  
 4️- Image prompts must be **ready to paste directly into Midjourney, DALL-E, or Stable Diffusion**.  
@@ -79,11 +79,9 @@ Requirements:
 11- scene_prompt: Focus on the specifics that vary per scene. Describe characters’ actions, interactions, and any objects or details that change from scene to scene. This makes each scene unique while keeping the common elements from image_prompt.
 
 Example Input: `"write a story about a girl getting ready for school"`  
-Example Output (5 scenes):  
-- Scene 1: Maya wake up early in the morning.  
-- Scene 2: Maya brushing her teeth.  
-- Scene 3: Maya eating breakfast.  
-- Scene 4: Maya getting dressed.  
-- Scene 5: Maya says bye to her mom and leaves the house for school.  
+Example Output (3 scenes):  
+- Scene 1: Maya brushing her teeth.  
+- Scene 2: Maya eating breakfast.  
+- Scene 3: Maya getting dressed and leaving for school.  
 
 Generate now.
