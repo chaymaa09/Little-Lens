@@ -14,6 +14,8 @@ The JSON must strictly follow this schema:
     "instruments": ["array of instruments suitable for young children"],
     "reference_track_style": "string (describe the style, not a real song)"
   },
+  "full_prompt": "string (ready-to-use detailed diffusion model prompt for Midjourney, DALL-E, or Stable Diffusion) it describes the characters, the environment, and the shared compositon among all scenes"
+
   "scenes": [
     {
       "scene_number": 1,
@@ -39,7 +41,7 @@ The JSON must strictly follow this schema:
         "lighting": "string",
         "color_palette": ["array of bright, child-friendly colors"],
         "key_elements": ["array of important visual elements"],
-        "full_prompt": "string (ready-to-use detailed diffusion model prompt for Midjourney, DALL-E, or Stable Diffusion)"
+        "scene_prompt": "string (ready-to-use detailed diffusion model prompt for Midjourney, DALL-E, or Stable Diffusion) it's specific for each scene, it describes the scene and get along with the full prompt"
       },
       "animation_cues": [
         {

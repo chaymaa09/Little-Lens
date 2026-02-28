@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { generateStoryFromPrompt } from "./services/mistralService";
 
 function App() {
   const [prompt, setPrompt] = useState("");
@@ -7,36 +8,49 @@ function App() {
   const [error, setError] = useState(null);
   const [activeScene, setActiveScene] = useState(0);
   const [view, setView] = useState("visual"); // visual | raw
+  
+  const [systemPrompt, setSystemPrompt] = useState("");
+  useEffect(() => {
+  const url = "./systemPrompt.txt";
+  console.log("Attempting to fetch system prompt from:", url, "location:", window.location.pathname);
+  fetch(url)
+    .then((response) => {
+      console.log("Fetch response for system prompt:", response);
+      return response.text();
+    })
+    .then((text) => {
+      setSystemPrompt(text);
+      console.log("Loaded system prompt (length):", text?.length);
+    })
+    .catch((error) => console.error("Error loading system prompt:", error));
+}, []);
+
 
   const generate = async () => {
-    if (!prompt.trim()) return;
-    setLoading(true);
-    setError(null);
-    setStory(null);
+  if (!prompt.trim()) return;
+
+  setLoading(true);
+  setError(null);
+  setStory(null);
 
     try {
-      const res = await fetch("https://api.anthropic.com/v1/messages", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          model: "claude-sonnet-4-20250514",
-          max_tokens: 4000,
-          system: SYSTEM_PROMPT,
-          messages: [{ role: "user", content: prompt }],
-        }),
-      });
-      const data = await res.json();
-      const text = data.content?.map((b) => b.text || "").join("") || "";
-      const clean = text.replace(/```json|```/g, "").trim();
-      const parsed = JSON.parse(clean);
-      setStory(parsed);
+      // Call your service ONCE
+      const jsonOutput = await generateStoryFromPrompt(
+        prompt,
+        systemPrompt
+      );
+
+      console.log("Final parsed JSON output:", jsonOutput);
+
+      setStory(jsonOutput);
       setActiveScene(0);
     } catch (e) {
-      setError("Failed to generate story. Please try again.");
+      console.error("Error during generate():", e);
+      setError(e.message || "Failed to generate story. Please try again.");
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
-
   const scene = story?.scenes?.[activeScene];
 
   return (
