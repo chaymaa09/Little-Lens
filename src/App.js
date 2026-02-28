@@ -93,339 +93,374 @@ function App() {
 
   const scene = story?.scenes?.[activeScene];
   const currentSceneImage = sceneImages[activeScene];
+  const totalScenes = story?.scenes?.length || 0;
+
+  const pageColors = ["#6C63FF", "#FF6B9D", "#00C9A7", "#FFB84D", "#A78BFA"];
+  const accentColor = pageColors[activeScene % pageColors.length];
 
   return (
     <div style={{
       minHeight: "100vh",
-      background: "#0a0a0f",
-      color: "#e8e0d0",
-      fontFamily: "'Georgia', serif",
-      padding: "0",
+      background: "linear-gradient(160deg, #e8f0fe 0%, #f3e8ff 35%, #fce4ec 65%, #fff8e1 100%)",
+      fontFamily: "'Nunito', 'Quicksand', 'Segoe UI', sans-serif",
+      padding: 0,
       overflow: "hidden"
     }}>
-      {/* Grain overlay */}
-      <div style={{
-        position: "fixed", inset: 0, pointerEvents: "none", zIndex: 0,
-        backgroundImage: "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E\")",
-        opacity: 0.6
-      }} />
+      {/* Decorative background shapes */}
+      <div style={{ position: "fixed", inset: 0, pointerEvents: "none", zIndex: 0, overflow: "hidden" }}>
+        <div style={{ position: "absolute", top: -60, right: -40, width: 200, height: 200, borderRadius: "50%", background: "radial-gradient(circle, rgba(108,99,255,0.08) 0%, transparent 70%)" }} />
+        <div style={{ position: "absolute", bottom: -80, left: -60, width: 280, height: 280, borderRadius: "50%", background: "radial-gradient(circle, rgba(255,107,157,0.07) 0%, transparent 70%)" }} />
+        <div style={{ position: "absolute", top: "40%", left: "60%", width: 160, height: 160, borderRadius: "50%", background: "radial-gradient(circle, rgba(0,201,167,0.06) 0%, transparent 70%)" }} />
+      </div>
 
       <div style={{ position: "relative", zIndex: 1 }}>
-        {/* Header */}
-        <div style={{
-          borderBottom: "1px solid #2a2820",
-          padding: "24px 40px",
-          display: "flex", alignItems: "center", gap: "16px"
-        }}>
+      {/* Header */}
+      <div style={{ padding: "28px 0 20px", textAlign: "center" }}>
+        <div style={{ display: "inline-flex", alignItems: "center", gap: 12 }}>
           <div style={{
-            width: 36, height: 36, borderRadius: "50%",
-            background: "linear-gradient(135deg, #c9a84c, #8b5e3c)",
+            width: 44, height: 44, borderRadius: 14,
+            background: "linear-gradient(135deg, #6C63FF, #A78BFA)",
             display: "flex", alignItems: "center", justifyContent: "center",
-            fontSize: 16
-          }}>🎬</div>
-          <div>
-            <div style={{ fontSize: 11, letterSpacing: "0.3em", color: "#8a7a60", textTransform: "uppercase" }}>Autonomous</div>
-            <div style={{ fontSize: 18, fontWeight: "bold", letterSpacing: "0.05em", color: "#e8d9b0" }}>Cinematic Story Engine</div>
+            boxShadow: "0 4px 14px rgba(108,99,255,0.3)",
+            transform: "rotate(-6deg)"
+          }}>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
           </div>
-          {story && (
-            <div style={{ marginLeft: "auto", display: "flex", gap: 8 }}>
-              {["visual", "raw"].map(v => (
-                <button key={v} onClick={() => setView(v)} style={{
-                  padding: "6px 16px", borderRadius: 4, border: "1px solid",
-                  borderColor: view === v ? "#c9a84c" : "#3a3428",
-                  background: view === v ? "#c9a84c22" : "transparent",
-                  color: view === v ? "#c9a84c" : "#8a7a60",
-                  cursor: "pointer", fontSize: 12, letterSpacing: "0.1em", textTransform: "uppercase",
-                  fontFamily: "monospace"
-                }}>{v}</button>
-              ))}
-            </div>
-          )}
+          <div style={{
+            fontSize: 30, fontWeight: 800, letterSpacing: "-0.02em",
+            background: "linear-gradient(135deg, #6C63FF, #FF6B9D)",
+            WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent"
+          }}>Little Lens</div>
         </div>
-
-        {/* Main */}
-        <div style={{ padding: "40px" }}>
-          {/* Input */}
-          {!story && (
-            <div style={{ maxWidth: 700, margin: "60px auto", textAlign: "center" }}>
-              <div style={{ fontSize: 13, letterSpacing: "0.4em", color: "#8a7a60", textTransform: "uppercase", marginBottom: 12 }}>
-                Your Story Begins With
-              </div>
-              <div style={{ fontSize: 32, fontStyle: "italic", color: "#d4c49a", marginBottom: 40, lineHeight: 1.4 }}>
-                "A single prompt."
-              </div>
-              <textarea
-                value={prompt}
-                onChange={e => setPrompt(e.target.value)}
-                placeholder="e.g. A lone astronaut discovers an ancient alien ruin on Europa..."
-                onKeyDown={e => e.key === "Enter" && e.metaKey && generate()}
-                style={{
-                  width: "100%", minHeight: 120, background: "#12100e",
-                  border: "1px solid #3a3020", borderRadius: 8,
-                  color: "#e8d9b0", padding: "16px", fontSize: 16,
-                  fontFamily: "Georgia, serif", lineHeight: 1.6, resize: "vertical",
-                  outline: "none", boxSizing: "border-box"
-                }}
-              />
-              <button
-                onClick={generate}
-                disabled={loading || !prompt.trim()}
-                style={{
-                  marginTop: 16, padding: "14px 40px",
-                  background: loading ? "#3a3020" : "linear-gradient(135deg, #c9a84c, #8b5e3c)",
-                  border: "none", borderRadius: 6, color: loading ? "#8a7a60" : "#0a0a0f",
-                  fontSize: 14, fontWeight: "bold", letterSpacing: "0.15em",
-                  textTransform: "uppercase", cursor: loading ? "not-allowed" : "pointer",
-                  transition: "opacity 0.2s"
-                }}
-              >
-                {loading ? "⚙ Generating Blueprint..." : "✦ Generate Story"}
-              </button>
-              {error && <div style={{ color: "#c0392b", marginTop: 16, fontSize: 14 }}>{error}</div>}
-              <div style={{ marginTop: 12, fontSize: 11, color: "#4a4030", letterSpacing: "0.1em" }}>⌘ + Enter to generate</div>
-            </div>
-          )}
-
-          {/* Story View */}
-          {story && view === "raw" && (
-            <div style={{ maxWidth: 900, margin: "0 auto" }}>
-              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
-                <div style={{ fontSize: 12, color: "#8a7a60", letterSpacing: "0.2em", textTransform: "uppercase" }}>JSON Blueprint</div>
-                <button onClick={() => { setStory(null); setPrompt(""); setSceneImages({}); }} style={{
-                  padding: "6px 16px", background: "transparent", border: "1px solid #3a3020",
-                  color: "#8a7a60", cursor: "pointer", borderRadius: 4, fontSize: 12
-                }}>← New Story</button>
-              </div>
-              <pre style={{
-                background: "#0d0b08", border: "1px solid #2a2416",
-                borderRadius: 8, padding: 24, overflow: "auto",
-                fontSize: 12, lineHeight: 1.8, color: "#c9b97a",
-                fontFamily: "'Courier New', monospace", maxHeight: "75vh"
-              }}>
-                {JSON.stringify(story, null, 2)}
-              </pre>
-            </div>
-          )}
-
-          {story && view === "visual" && (
-            <div style={{ maxWidth: 1100, margin: "0 auto" }}>
-              {/* Story Header */}
-              <div style={{
-                display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 32
-              }}>
-                <div>
-                  <div style={{ fontSize: 11, letterSpacing: "0.3em", color: "#8a7a60", textTransform: "uppercase", marginBottom: 6 }}>
-                    {story.genre} · {story.tone}
-                  </div>
-                  <h1 style={{ margin: 0, fontSize: 28, color: "#e8d9b0", fontStyle: "italic" }}>{story.title}</h1>
-                  <p style={{ margin: "8px 0 0", color: "#a09070", fontSize: 15, fontStyle: "italic" }}>{story.logline}</p>
-                </div>
-                <button onClick={() => { setStory(null); setPrompt(""); setSceneImages({}); }} style={{
-                  padding: "8px 20px", background: "transparent", border: "1px solid #3a3020",
-                  color: "#8a7a60", cursor: "pointer", borderRadius: 4, fontSize: 12
-                }}>← New Story</button>
-              </div>
-
-              {/* Global Music Bar */}
-              <div style={{
-                background: "#12100e", border: "1px solid #2a2416", borderRadius: 8,
-                padding: "14px 20px", marginBottom: 28,
-                display: "flex", gap: 32, alignItems: "center", flexWrap: "wrap"
-              }}>
-                <div style={{ fontSize: 18 }}>🎵</div>
-                <div>
-                  <div style={{ fontSize: 10, letterSpacing: "0.3em", color: "#8a7a60", textTransform: "uppercase" }}>Global Score</div>
-                  <div style={{ color: "#c9a84c", fontSize: 14 }}>{story.global_music?.mood} · {story.global_music?.tempo}</div>
-                </div>
-                <div style={{ height: 32, width: 1, background: "#2a2416" }} />
-                <div>
-                  <div style={{ fontSize: 10, letterSpacing: "0.3em", color: "#8a7a60", textTransform: "uppercase" }}>Instruments</div>
-                  <div style={{ color: "#e0d0a8", fontSize: 13 }}>{story.global_music?.instruments?.join(", ")}</div>
-                </div>
-                <div style={{ height: 32, width: 1, background: "#2a2416" }} />
-                <div>
-                  <div style={{ fontSize: 10, letterSpacing: "0.3em", color: "#8a7a60", textTransform: "uppercase" }}>Style Reference</div>
-                  <div style={{ color: "#e0d0a8", fontSize: 13 }}>{story.global_music?.reference_track_style}</div>
-                </div>
-                <div style={{ marginLeft: "auto", fontSize: 12, color: "#6a5a40" }}>⏱ {story.total_duration_seconds}s total</div>
-              </div>
-
-              {/* Scene Tabs */}
-              <div style={{ display: "flex", gap: 8, marginBottom: 20 }}>
-                {story.scenes?.map((s, i) => (
-                  <button key={i} onClick={() => setActiveScene(i)} style={{
-                    padding: "10px 20px", borderRadius: 6, border: "1px solid",
-                    borderColor: activeScene === i ? "#c9a84c" : "#2a2416",
-                    background: activeScene === i ? "#1e1a0e" : "transparent",
-                    color: activeScene === i ? "#c9a84c" : "#7a6a50",
-                    cursor: "pointer", fontSize: 13, fontFamily: "Georgia, serif",
-                    transition: "all 0.2s"
-                  }}>
-                    Scene {s.scene_number}: {s.title}
-                  </button>
-                ))}
-              </div>
-
-              {/* Scene Detail */}
-              {scene && (
-                <div style={{
-                  display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16,
-                  animation: "fadeIn 0.4s ease"
-                }}>
-                  {/* Narration */}
-                  <div style={{
-                    gridColumn: "1 / -1", background: "#12100e",
-                    border: "1px solid #2a2416", borderRadius: 8, padding: 24,
-                    borderLeft: "3px solid #c9a84c"
-                  }}>
-                    <div style={{ fontSize: 10, letterSpacing: "0.3em", color: "#8a7a60", textTransform: "uppercase", marginBottom: 10 }}>Narration</div>
-                    <p style={{ margin: 0, fontSize: 17, lineHeight: 1.8, color: "#e0d0b0", fontStyle: "italic" }}>"{scene.narration}"</p>
-                  </div>
-
-                  {/* Scene Image */}
-                  <div style={{
-                    gridColumn: "1 / -1", background: "#12100e",
-                    border: "1px solid #2a2416", borderRadius: 8, padding: 20,
-                    display: "flex", flexDirection: "column", alignItems: "center"
-                  }}>
-                    <div style={{ fontSize: 10, letterSpacing: "0.3em", color: "#8a7a60", textTransform: "uppercase", marginBottom: 12 }}>🖼️ Scene Image</div>
-                    {imagesLoading && !currentSceneImage ? (
-                      <div style={{ color: "#8a7a60", fontSize: 14, padding: 40 }}>⏳ Generating image...</div>
-                    ) : currentSceneImage ? (
-                      <img 
-                        src={currentSceneImage} 
-                        alt={`Scene ${activeScene + 1}`}
-                        style={{ 
-                          maxWidth: "100%", 
-                          maxHeight: 500, 
-                          borderRadius: 8,
-                          border: "1px solid #3a2a10"
-                        }} 
-                      />
-                    ) : (
-                      <div style={{ color: "#6a5a40", fontSize: 13, padding: 40 }}>No image available</div>
-                    )}
-                  </div>
-
-                  {/* Setting */}
-                  <div style={{ background: "#12100e", border: "1px solid #2a2416", borderRadius: 8, padding: 20 }}>
-                    <div style={{ fontSize: 10, letterSpacing: "0.3em", color: "#8a7a60", textTransform: "uppercase", marginBottom: 12 }}>🌍 Setting</div>
-                    {[["Location", scene.setting?.location], ["Time", scene.setting?.time_of_day], ["Weather", scene.setting?.weather], ["Atmosphere", scene.setting?.atmosphere]].map(([k, v]) => (
-                      <div key={k} style={{ marginBottom: 8 }}>
-                        <span style={{ fontSize: 10, color: "#6a5a40", textTransform: "uppercase", letterSpacing: "0.15em" }}>{k}: </span>
-                        <span style={{ fontSize: 13, color: "#c8b888" }}>{v}</span>
-                      </div>
-                    ))}
-                    <div style={{ marginTop: 12, paddingTop: 12, borderTop: "1px solid #2a2416", fontSize: 11, color: "#6a5a40" }}>
-                      ⏱ {scene.duration_seconds}s · Emotion: <span style={{ color: "#c9a84c" }}>{scene.emotional_arc}</span>
-                    </div>
-                  </div>
-
-                  {/* Characters */}
-                  <div style={{ background: "#12100e", border: "1px solid #2a2416", borderRadius: 8, padding: 20 }}>
-                    <div style={{ fontSize: 10, letterSpacing: "0.3em", color: "#8a7a60", textTransform: "uppercase", marginBottom: 12 }}>👤 Characters</div>
-                    {scene.characters?.map((c, i) => (
-                      <div key={i} style={{ marginBottom: 12, paddingBottom: 12, borderBottom: i < scene.characters.length - 1 ? "1px solid #1e1a12" : "none" }}>
-                        <div style={{ color: "#c9a84c", fontSize: 14, marginBottom: 4 }}>{c.name}</div>
-                        <div style={{ fontSize: 12, color: "#a09070", marginBottom: 4 }}>{c.description}</div>
-                        <div style={{ fontSize: 12, color: "#c8b888", fontStyle: "italic" }}>→ {c.action}</div>
-                      </div>
-                    ))}
-                  </div>
-
-                  {/* Image Prompt */}
-                  <div style={{
-                    gridColumn: "1 / -1", background: "#0d0b08",
-                    border: "1px solid #3a2a10", borderRadius: 8, padding: 20
-                  }}>
-                    <div style={{ display: "flex", gap: 16, marginBottom: 14, flexWrap: "wrap" }}>
-                      <div>
-                        <div style={{ fontSize: 10, letterSpacing: "0.3em", color: "#8a7a60", textTransform: "uppercase", marginBottom: 4 }}>🎨 Image Style</div>
-                        <div style={{ fontSize: 13, color: "#c9a84c" }}>{scene.image_prompt?.style}</div>
-                      </div>
-                      <div>
-                        <div style={{ fontSize: 10, letterSpacing: "0.3em", color: "#8a7a60", textTransform: "uppercase", marginBottom: 4 }}>💡 Lighting</div>
-                        <div style={{ fontSize: 13, color: "#c9a84c" }}>{scene.image_prompt?.lighting}</div>
-                      </div>
-                      <div>
-                        <div style={{ fontSize: 10, letterSpacing: "0.3em", color: "#8a7a60", textTransform: "uppercase", marginBottom: 4 }}>🎨 Palette</div>
-                        <div style={{ display: "flex", gap: 6, alignItems: "center" }}>
-                          {scene.image_prompt?.color_palette?.map((c, i) => (
-                            <span key={i} style={{ fontSize: 12, color: "#a09070", background: "#1e1a12", padding: "2px 8px", borderRadius: 3 }}>{c}</span>
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-                    <div style={{ fontSize: 10, letterSpacing: "0.3em", color: "#8a7a60", textTransform: "uppercase", marginBottom: 8 }}>Full Diffusion Prompt</div>
-                    <div style={{
-                      background: "#12100e", border: "1px dashed #3a2a10", borderRadius: 6,
-                      padding: 14, fontSize: 13, lineHeight: 1.7, color: "#d4c49a",
-                      fontFamily: "monospace", userSelect: "all"
-                    }}>
-                      {scene.image_prompt?.full_prompt}
-                    </div>
-                  </div>
-
-                  {/* Animation Cues */}
-                  <div style={{ background: "#12100e", border: "1px solid #2a2416", borderRadius: 8, padding: 20 }}>
-                    <div style={{ fontSize: 10, letterSpacing: "0.3em", color: "#8a7a60", textTransform: "uppercase", marginBottom: 12 }}>🎬 Animation Cues</div>
-                    {scene.animation_cues?.map((cue, i) => (
-                      <div key={i} style={{
-                        marginBottom: 10, paddingLeft: 12,
-                        borderLeft: "2px solid #3a2a10"
-                      }}>
-                        <div style={{ fontSize: 11, color: "#c9a84c" }}>
-                          t={cue.timestamp_seconds}s · <span style={{ color: "#e8b060" }}>{cue.type}</span> · {cue.duration_seconds}s
-                        </div>
-                        <div style={{ fontSize: 12, color: "#a09070" }}>{cue.description}</div>
-                      </div>
-                    ))}
-                  </div>
-
-                  {/* Music Cue */}
-                  <div style={{ background: "#12100e", border: "1px solid #2a2416", borderRadius: 8, padding: 20 }}>
-                    <div style={{ fontSize: 10, letterSpacing: "0.3em", color: "#8a7a60", textTransform: "uppercase", marginBottom: 12 }}>🎵 Music Cue</div>
-                    <div style={{ marginBottom: 8 }}>
-                      <span style={{ fontSize: 10, color: "#6a5a40", textTransform: "uppercase" }}>Mood Shift: </span>
-                      <span style={{ fontSize: 13, color: "#c8b888" }}>{scene.music_cue?.mood_shift}</span>
-                    </div>
-                    <div style={{ marginBottom: 12 }}>
-                      <span style={{ fontSize: 10, color: "#6a5a40", textTransform: "uppercase" }}>Intensity: </span>
-                      <span style={{ fontSize: 13, color: "#c9a84c", textTransform: "uppercase", letterSpacing: "0.1em" }}>{scene.music_cue?.intensity}</span>
-                    </div>
-                    <div style={{ fontSize: 10, letterSpacing: "0.2em", color: "#6a5a40", textTransform: "uppercase", marginBottom: 8 }}>SFX</div>
-                    <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
-                      {scene.music_cue?.sfx?.map((s, i) => (
-                        <span key={i} style={{
-                          fontSize: 11, color: "#a09070", background: "#1a1810",
-                          border: "1px solid #2a2416", padding: "3px 10px", borderRadius: 20
-                        }}>{s}</span>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              )}
-
-              {/* Ending note */}
-              {story.ending_note && (
-                <div style={{
-                  marginTop: 20, padding: "16px 24px", textAlign: "center",
-                  borderTop: "1px solid #2a2416", color: "#7a6a50",
-                  fontSize: 14, fontStyle: "italic", lineHeight: 1.8
-                }}>
-                  ✦ {story.ending_note}
-                </div>
-              )}
-            </div>
-          )}
+        <div style={{ fontSize: 13, color: "#9ca3af", letterSpacing: "0.08em", marginTop: 4, fontWeight: 500 }}>
+          Where every story comes alive
         </div>
       </div>
 
+      <div style={{ maxWidth: 680, margin: "0 auto", padding: "0 20px 60px" }}>
+
+        {/* === INPUT SCREEN === */}
+        {!story && (
+          <div style={{
+            background: "rgba(255,255,255,0.85)",
+            backdropFilter: "blur(20px)",
+            borderRadius: 28,
+            boxShadow: "0 12px 40px rgba(108,99,255,0.1), 0 4px 12px rgba(0,0,0,0.04)",
+            padding: "52px 44px",
+            textAlign: "center",
+            border: "1px solid rgba(108,99,255,0.12)",
+            marginTop: 12
+          }}>
+            <div style={{ fontSize: 22, fontWeight: 700, color: "#3b3660", marginBottom: 8, lineHeight: 1.3 }}>
+              What story shall we tell today?
+            </div>
+            <div style={{ fontSize: 14, color: "#9ca3af", marginBottom: 32, fontWeight: 400 }}>
+              Describe a little adventure and watch it come to life
+            </div>
+            <textarea
+              value={prompt}
+              onChange={e => setPrompt(e.target.value)}
+              placeholder="A bunny learns to share her carrots with friends..."
+              onKeyDown={e => e.key === "Enter" && e.metaKey && generate()}
+              style={{
+                width: "100%", minHeight: 110, background: "#f8f7ff",
+                border: "2px solid #e8e4f8", borderRadius: 18,
+                color: "#3b3660", padding: "18px 20px", fontSize: 16,
+                fontFamily: "'Nunito', sans-serif", lineHeight: 1.7, resize: "vertical",
+                outline: "none", boxSizing: "border-box",
+                transition: "border-color 0.3s, box-shadow 0.3s"
+              }}
+            />
+            <button
+              onClick={generate}
+              disabled={loading || !prompt.trim()}
+              style={{
+                marginTop: 24, padding: "15px 48px",
+                background: loading ? "#e8e4f8" : "linear-gradient(135deg, #6C63FF 0%, #A78BFA 100%)",
+                border: "none", borderRadius: 50,
+                color: loading ? "#a09cc0" : "#fff",
+                fontSize: 16, fontWeight: 700, letterSpacing: "0.02em",
+                cursor: loading ? "not-allowed" : "pointer",
+                boxShadow: loading ? "none" : "0 6px 24px rgba(108,99,255,0.35)",
+                transition: "all 0.3s ease",
+                fontFamily: "'Nunito', sans-serif"
+              }}
+            >
+              {loading ? "Creating your story..." : "Tell Me a Story"}
+            </button>
+            {error && (
+              <div style={{
+                color: "#e53e3e", marginTop: 18, fontSize: 14,
+                background: "#fff5f5", padding: "10px 18px", borderRadius: 12,
+                border: "1px solid #fed7d7"
+              }}>
+                {error}
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* === STORY BOOK VIEW === */}
+        {story && (
+          <div style={{ animation: "fadeIn 0.5s ease" }}>
+
+            {/* Title card */}
+            <div style={{
+              background: "rgba(255,255,255,0.9)",
+              backdropFilter: "blur(20px)",
+              borderRadius: "28px 28px 0 0",
+              padding: "32px 36px 20px",
+              textAlign: "center",
+              borderTop: `4px solid ${accentColor}`,
+              borderLeft: "1px solid rgba(108,99,255,0.08)",
+              borderRight: "1px solid rgba(108,99,255,0.08)"
+            }}>
+              <h1 style={{
+                margin: 0, fontSize: 26, fontWeight: 800,
+                color: "#2d2950", lineHeight: 1.3
+              }}>
+                {story.title}
+              </h1>
+              <p style={{
+                margin: "10px 0 0", color: "#8b8aa0", fontSize: 14,
+                fontWeight: 400, lineHeight: 1.5
+              }}>
+                {story.logline}
+              </p>
+            </div>
+
+            {/* Book page */}
+            <div style={{
+              background: "rgba(255,255,255,0.9)",
+              backdropFilter: "blur(20px)",
+              borderRadius: "0 0 28px 28px",
+              boxShadow: "0 12px 40px rgba(108,99,255,0.08), 0 4px 12px rgba(0,0,0,0.04)",
+              padding: "0 36px 36px",
+              border: "1px solid rgba(108,99,255,0.08)",
+              borderTop: "none",
+              position: "relative"
+            }}>
+              {scene && (
+                <div style={{ animation: "fadeIn 0.4s ease" }}>
+                  {/* Page number pill */}
+                  <div style={{ textAlign: "center", padding: "18px 0 14px" }}>
+                    <span style={{
+                      display: "inline-block",
+                      background: `${accentColor}14`,
+                      color: accentColor,
+                      fontSize: 12, fontWeight: 700,
+                      padding: "4px 16px", borderRadius: 20,
+                      letterSpacing: "0.1em", textTransform: "uppercase"
+                    }}>
+                      Page {activeScene + 1} of {totalScenes}
+                    </span>
+                  </div>
+
+                  {/* Scene title */}
+                  <h2 style={{
+                    textAlign: "center", margin: "0 0 22px",
+                    fontSize: 21, color: "#3b3660", fontWeight: 600
+                  }}>
+                    {scene.title}
+                  </h2>
+
+                  {/* Scene image */}
+                  <div style={{
+                    background: "linear-gradient(135deg, #f0eeff 0%, #fdf0f5 50%, #f0faf7 100%)",
+                    borderRadius: 20, padding: 14,
+                    display: "flex", justifyContent: "center", alignItems: "center",
+                    minHeight: 260,
+                    border: `1px solid ${accentColor}20`,
+                    marginBottom: 26
+                  }}>
+                    {imagesLoading && !currentSceneImage ? (
+                      <div style={{ color: "#9ca3af", fontSize: 15, padding: 48, textAlign: "center" }}>
+                        <div style={{
+                          width: 48, height: 48, borderRadius: "50%",
+                          border: `3px solid ${accentColor}30`,
+                          borderTopColor: accentColor,
+                          animation: "spin 0.8s linear infinite",
+                          margin: "0 auto 16px"
+                        }} />
+                        Painting this scene...
+                      </div>
+                    ) : currentSceneImage ? (
+                      <img
+                        src={currentSceneImage}
+                        alt={`Scene ${activeScene + 1}`}
+                        style={{
+                          maxWidth: "100%", maxHeight: 420,
+                          borderRadius: 14,
+                          boxShadow: `0 8px 30px ${accentColor}20`
+                        }}
+                      />
+                    ) : (
+                      <div style={{ color: "#b0aec4", fontSize: 14, padding: 48, textAlign: "center" }}>
+                        <div style={{
+                          width: 52, height: 52, borderRadius: 16,
+                          background: `${accentColor}12`,
+                          display: "flex", alignItems: "center", justifyContent: "center",
+                          margin: "0 auto 12px"
+                        }}>
+                          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke={accentColor} strokeWidth="1.5">
+                            <rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/>
+                          </svg>
+                        </div>
+                        Image coming soon
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Narration */}
+                  <div style={{
+                    background: `linear-gradient(135deg, ${accentColor}06, ${accentColor}03)`,
+                    borderRadius: 18, padding: "26px 30px",
+                    borderLeft: `4px solid ${accentColor}`,
+                    marginBottom: 8
+                  }}>
+                    <p style={{
+                      margin: 0, fontSize: 18, lineHeight: 2,
+                      color: "#3b3660", fontWeight: 400, textAlign: "center"
+                    }}>
+                      {scene.narration}
+                    </p>
+                  </div>
+
+                  {/* Ending note on last page */}
+                  {activeScene === totalScenes - 1 && story.ending_note && (
+                    <div style={{
+                      marginTop: 22, padding: "20px 24px",
+                      textAlign: "center",
+                      background: "linear-gradient(135deg, rgba(167,139,250,0.08), rgba(255,107,157,0.08))",
+                      borderRadius: 16,
+                      border: "1px solid rgba(108,99,255,0.1)"
+                    }}>
+                      <div style={{
+                        width: 36, height: 36, borderRadius: "50%",
+                        background: "linear-gradient(135deg, #FFB84D, #FF6B9D)",
+                        margin: "0 auto 10px",
+                        display: "flex", alignItems: "center", justifyContent: "center"
+                      }}>
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="white" stroke="none">
+                          <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                        </svg>
+                      </div>
+                      <div style={{ color: "#4a4570", fontSize: 15, fontWeight: 500, lineHeight: 1.7 }}>
+                        {story.ending_note}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* Navigation */}
+              <div style={{
+                display: "flex", justifyContent: "space-between", alignItems: "center",
+                marginTop: 30, paddingTop: 22,
+                borderTop: "1px solid rgba(108,99,255,0.08)"
+              }}>
+                <button
+                  onClick={() => setActiveScene(Math.max(0, activeScene - 1))}
+                  disabled={activeScene === 0}
+                  style={{
+                    padding: "11px 26px",
+                    background: activeScene === 0 ? "#f0eeff" : "linear-gradient(135deg, #6C63FF, #A78BFA)",
+                    border: "none", borderRadius: 50,
+                    color: activeScene === 0 ? "#c0bcd8" : "#fff",
+                    fontSize: 14, fontWeight: 700,
+                    cursor: activeScene === 0 ? "not-allowed" : "pointer",
+                    boxShadow: activeScene === 0 ? "none" : "0 4px 14px rgba(108,99,255,0.3)",
+                    transition: "all 0.3s ease",
+                    fontFamily: "'Nunito', sans-serif",
+                    display: "flex", alignItems: "center", gap: 6
+                  }}
+                >
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <polyline points="15 18 9 12 15 6"/>
+                  </svg>
+                  Previous
+                </button>
+
+                <div style={{ display: "flex", gap: 8 }}>
+                  {story.scenes?.map((_, i) => (
+                    <div
+                      key={i}
+                      onClick={() => setActiveScene(i)}
+                      style={{
+                        width: activeScene === i ? 28 : 10,
+                        height: 10, borderRadius: 5,
+                        background: activeScene === i
+                          ? `linear-gradient(135deg, ${pageColors[i % pageColors.length]}, ${pageColors[(i + 1) % pageColors.length]})`
+                          : "#e0ddf0",
+                        cursor: "pointer",
+                        transition: "all 0.3s ease",
+                        boxShadow: activeScene === i ? `0 2px 8px ${pageColors[i % pageColors.length]}40` : "none"
+                      }}
+                    />
+                  ))}
+                </div>
+
+                <button
+                  onClick={() => setActiveScene(Math.min(totalScenes - 1, activeScene + 1))}
+                  disabled={activeScene === totalScenes - 1}
+                  style={{
+                    padding: "11px 26px",
+                    background: activeScene === totalScenes - 1 ? "#f0eeff" : "linear-gradient(135deg, #6C63FF, #A78BFA)",
+                    border: "none", borderRadius: 50,
+                    color: activeScene === totalScenes - 1 ? "#c0bcd8" : "#fff",
+                    fontSize: 14, fontWeight: 700,
+                    cursor: activeScene === totalScenes - 1 ? "not-allowed" : "pointer",
+                    boxShadow: activeScene === totalScenes - 1 ? "none" : "0 4px 14px rgba(108,99,255,0.3)",
+                    transition: "all 0.3s ease",
+                    fontFamily: "'Nunito', sans-serif",
+                    display: "flex", alignItems: "center", gap: 6
+                  }}
+                >
+                  Next
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <polyline points="9 18 15 12 9 6"/>
+                  </svg>
+                </button>
+              </div>
+
+              {/* New Story */}
+              <div style={{ textAlign: "center", marginTop: 24 }}>
+                <button
+                  onClick={() => { setStory(null); setPrompt(""); setSceneImages({}); }}
+                  style={{
+                    padding: "9px 28px",
+                    background: "transparent",
+                    border: "1.5px solid rgba(108,99,255,0.2)",
+                    borderRadius: 50,
+                    color: "#8b8aa0",
+                    fontSize: 13, fontWeight: 600,
+                    cursor: "pointer",
+                    fontFamily: "'Nunito', sans-serif",
+                    transition: "all 0.3s ease",
+                    letterSpacing: "0.02em"
+                  }}
+                >
+                  New Story
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+      </div>
+
       <style>{`
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
-        textarea:focus { border-color: #c9a84c !important; }
-        ::-webkit-scrollbar { width: 6px; } ::-webkit-scrollbar-track { background: #0a0a0f; }
-        ::-webkit-scrollbar-thumb { background: #3a3020; border-radius: 3px; }
+        @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap');
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        textarea:focus { border-color: #6C63FF !important; box-shadow: 0 0 0 3px rgba(108,99,255,0.12) !important; }
+        button:hover:not(:disabled) { transform: translateY(-1px); }
+        button:active:not(:disabled) { transform: translateY(0); }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #d0cee8; border-radius: 3px; }
       `}</style>
     </div>
   );
