@@ -58,12 +58,9 @@ The JSON must strictly follow this schema:
         "scene_prompt": "string (ready-to-use detailed diffusion model prompt for Midjourney, DALL-E, or Stable Diffusion) it's specific for each scene, it describes the scene and get along with the full prompt"
       },
       "animation_cues": [
-        {
-          "timestamp_seconds": number,
-          "type": "string (pan-right, pan-left, zoom-in, zoom-out, subtle-pan)",
-          "description": "string",
-          "duration_seconds": number
-        }
+        { "timestamp_seconds": 0, "type": "zoom-in", "duration_seconds": 4, "description": "Slowly zoom into the main character's face" },
+        { "timestamp_seconds": 4, "type": "pan-right", "duration_seconds": 4, "description": "Pan right to show the scene" },
+        { "timestamp_seconds": 8, "type": "subtle-pan", "duration_seconds": 3, "description": "Gentle drift upward" }
       ],
       "music_cue": {
         "mood_shift": "string",
@@ -77,10 +74,8 @@ The JSON must strictly follow this schema:
 
 Requirements:
 
-1- Generate **exactly 3 scenes** (no more, no less).  
-2️- Keep the story **simple, vivid, and easy for children under 3 to understand**.  
 1- Generate **exactly 6 scenes** (no more, no less).  
-2️- Keep the story **simple, vivid, and early-childhood friendly (Pixar/Disney 3D style)**.  
+2️- Keep the story **simple, vivid, and early-childhood friendly (Pixar/Disney 3D style)**. 
 3️- Each scene should illustrate **a clear action, habit, or moral lesson**.  
 4️- Image prompts must be **ultra-vibrant, high-contrast, with soft rounded character designs**. Ready to paste into Midjourney.  
 5️- Make narration **short, playful, and clear** with 2–4 sentences per scene.  
