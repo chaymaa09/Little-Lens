@@ -1,4 +1,4 @@
-import { HF_API_KEY } from "../config";
+import { HF_API_KEY  } from "../config";
 
 export async function generateImageFromPrompt(promptText) {
   if (!promptText?.trim()) {

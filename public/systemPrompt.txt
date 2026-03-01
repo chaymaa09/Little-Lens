@@ -57,12 +57,14 @@ The JSON must strictly follow this schema:
         "key_elements": ["array of important visual elements"],
         "scene_prompt": "string (ready-to-use detailed diffusion model prompt for Midjourney, DALL-E, or Stable Diffusion) it's specific for each scene, it describes the scene and get along with the full prompt"
       },
-      "animation_cues": {
-          "timestamp_seconds": number,
-          "type": "string — choose ONE from: ken_burns_right, ken_burns_left, ken_burns_up, ken_burns_down, ken_burns_zoom_in, ken_burns_zoom_out, ken_burns_diagonal_tl, ken_burns_diagonal_br, breathe, heartbeat, tremble, wobble, fade_in, fade_in_zoom, float, float_and_tilt, slide_in_left, slide_in_right, slide_in_bottom, rise_up, spin_slow, flash, none",
-          "overlay": "string (optional) — choose ONE from: sparkles, glitter, falling_leaves, snow, rain, fireflies, bubbles, sun_rays, magic_dust, shooting_stars, rainbow, wind_particles, confetti, vignette_pulse, dreamy_blur_edges, underwater, none",
-          "description": "string",
-          "duration_seconds": number
+      "animation_cues": [
+        { "timestamp_seconds": 0, "type": "zoom-in", "duration_seconds": 4, "description": "Slowly zoom into the main character's face" },
+        { "timestamp_seconds": 4, "type": "pan-right", "duration_seconds": 4, "description": "Pan right to show the scene" },
+        { "timestamp_seconds": 8, "type": "subtle-pan", "duration_seconds": 3, "description": "Gentle drift upward" }
+      ],
+      "music_cue": {
+        "mood_shift": "string",
+        "sfx": ["choose 1-2 sounds ONLY from the predefined list above, matching scene actions"]
         },
     }
   ],
@@ -71,10 +73,8 @@ The JSON must strictly follow this schema:
 
 Requirements:
 
-1- Generate **exactly 3 scenes** (no more, no less).  
-2️- Keep the story **simple, vivid, and easy for children under 3 to understand**.  
 1- Generate **exactly 6 scenes** (no more, no less).  
-2️- Keep the story **simple, vivid, and early-childhood friendly (Pixar/Disney 3D style)**.  
+2️- Keep the story **simple, vivid, and early-childhood friendly (Pixar/Disney 3D style)**. 
 3️- Each scene should illustrate **a clear action, habit, or moral lesson**.  
 4️- Image prompts must be **ultra-vibrant, high-contrast, with soft rounded character designs**. Ready to paste into Midjourney.  
 5️- Make narration **short, playful, and clear** with 2–4 sentences per scene.  
@@ -90,9 +90,11 @@ Requirements:
 
 Example Input: `"write a story about a girl morning routine"`  
 Example Output (3 scenes):  
-- Scene 1: Maya waking up with a big stretch.  
-- Scene 2: Maya eating crunchy cereal with her dog Bluey.  
-- Scene 3: Maya wears her favorite yellow dress.  
-
+- Scene 1: Maya wake up early in the morning.  
+- Scene 2: Maya brushing her teeth.  
+- Scene 3: Maya eating breakfast.  
+- Scene 4: Maya getting dressed.  
+- Scene 5: Maya says bye to her mom 
+- Scene 6:Maya leaves the house for school.  
 
 Generate now.
