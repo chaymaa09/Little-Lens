@@ -1,4 +1,4 @@
-import { HF_API_KEY  } from "../config";
+import { HUGGINGFACE_API_KEY  as HF_API_KEY  } from "../config";
 
 export async function generateImageFromPrompt(promptText) {
   if (!promptText?.trim()) {
@@ -20,7 +20,7 @@ export async function generateImageFromPrompt(promptText) {
         model: "stabilityai/stable-diffusion-xl-base-1.0",
         prompt: promptText,
         n: 1,
-        size: "1024x1024",
+        size: "1024x576",
         response_format: "b64_json"
       }),
     }
@@ -34,7 +34,6 @@ export async function generateImageFromPrompt(promptText) {
   const data = await response.json();
   console.log("HF API response data:", data);
 
-  // OpenAI-compatible format: { data: [{ b64_json: "..." }] }
   const base64Image = data?.data?.[0]?.b64_json;
 
   if (!base64Image) throw new Error("No image returned from HF API");
