@@ -14,6 +14,7 @@ Little Lens is an interactive storytelling web application designed for children
 - AI Text Generation: Mistral AI API
 - AI Image Generation: Hugging Face Inference API
 - AI Voice Generation: ElevenLabs API
+- AI Audio Transcription: Voxtral (Mistral AI Speech Recognition)
 
 ## Setup Instructions
 
