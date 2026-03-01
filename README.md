@@ -44,7 +44,23 @@ npm start
 
 Opens at [http://localhost:3000](http://localhost:3000).
 
+
+## Orchestration Flow
+
+The system follows a pipeline architecture where **Mistral AI acts as the orchestrator** :
+
+1. **User → Mistral AI** — The user sends a short story prompt from the React app. Mistral (ministral-14b-latest) generates a complete story blueprint : text, image prompts, animation cues, sound effects, and background music selection.
+
+2. **Story → Parallel Processing** — The blueprint is split into three parallel pipelines:
+   - **Narration Text → ElevenLabs API** — Each scene's narration is converted to speech audio using ElevenLabs.
+   - **Image Prompts → Hugging Face API** — Scene-specific prompts are sent to Stable Diffusion XL (stable-diffusion-xl-base-1.0) to generate illustrations for each scene in parallel.
+   - **Animation Cues → Framer Motion** — Camera movement instructions to animate the scene images during playback.
+
+3. **Audio → Mistral Speech Recognition (Voxtral)** — The generated audio is sent to Voxtral Mini for transcription with word-level timestamps.
+
+
 ## Architecture
+
 
 ```
 src/
