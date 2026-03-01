@@ -517,8 +517,9 @@ function App() {
                         overflow: "hidden"
                       }}
                     >
-                      {imagesLoading && !currentSceneImage ? (
-                        <div style={{ color: "#9ca3af", fontSize: 15, padding: 48, textAlign: "center" }}>
+       
+                          cons.log               {imagesLoading && !currentSceneImage ? (
+                        <div style={{  color: "#9ca3af", fontSize: 15, padding: 48, textAlign: "center" }}>
                           <div style={{
                             width: 48, height: 48, borderRadius: "50%",
                             border: `3px solid ${accentColor}30`,
