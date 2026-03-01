@@ -2,9 +2,10 @@
 
 **Little Lens** is a storytelling platform for children that transforms a user’s prompt into a unique, personalized story, delivering it as an immersive visual and auditory “storybook” experience.
 
-> *Dream it. See it.*
+Each story is designed to nurture empathy, responsibility, confidence, and strong moral character — all through magical storytelling.
 
-![React](https://img.shields.io/badge/React-19-blue) ![Mistral AI](https://img.shields.io/badge/Mistral_AI-Story_Engine-orange) ![ElevenLabs](https://img.shields.io/badge/ElevenLabs-Voice-green) ![Hugging Face](https://img.shields.io/badge/HuggingFace-Image_Gen-yellow)
+> *Stories that shape hearts and minds.*
+
 
 ---
 
