@@ -5,9 +5,49 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  padding: 0;
+  overflow-x: hidden;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+/* Mobile optimizations */
+@media (max-width: 480px) {
+  body {
+    font-size: 14px;
+  }
+
+  button, input, textarea {
+    font-size: 16px !important; /* Prevents zoom on iOS */
+    min-height: 44px; /* Touch-friendly minimum size */
+  }
+
+  input[type="range"] {
+    min-height: 44px;
+    padding: 10px 0;
+  }
+}
+
+@media (max-width: 768px) {
+  body {
+    font-size: 15px;
+  }
+
+  button, input, textarea {
+    font-size: 16px !important;
+  }
+}
+
+/* Touch-friendly improvements */
+@media (hover: none) and (pointer: coarse) {
+  button:active {
+    background-color: rgba(0, 0, 0, 0.1);
+  }
+
+  textarea:active {
+    border-color: #6C63FF !important;
+  }
 }

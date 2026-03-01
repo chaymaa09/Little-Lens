@@ -386,26 +386,26 @@ useEffect(() => {
 
         {/* === INPUT SCREEN === */}
         {!story && (
-          <div style={{ maxWidth: 680, margin: "0 auto", padding: "0 20px 60px", position: "relative" }}>
+          <div style={{ maxWidth: "80%", margin: "0 auto", padding: "0 clamp(12px,4vw,20px) 60px", position: "relative",marginTop: 50 }}>
             {/* Some decorative doodles */}
-            <div style={{ position: "absolute", top: -20, left: 0, fontSize: 32, transform: "rotate(-15deg)", filter: "drop-shadow(2px 2px 0px #2d2950)" }}>✨</div>
-            <div style={{ position: "absolute", bottom: 80, right: 0, fontSize: 40, transform: "rotate(15deg)", filter: "drop-shadow(2px 2px 0px #2d2950)" }}>🖍️</div>
+            <div style={{ position: "absolute", top: -20, left: 0, fontSize: "clamp(24px,8vw,32px)", transform: "rotate(-15deg)", filter: "drop-shadow(2px 2px 0px #2d2950)" }}>✨</div>
+            <div style={{ position: "absolute", bottom: 80, right: 0, fontSize: "clamp(32px,10vw,40px)", transform: "rotate(15deg)", filter: "drop-shadow(2px 2px 0px #2d2950)" }}>🖍️</div>
             
             <motion.div
               initial={{ scale: 0.95, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               className="sticker"
               style={{
-                padding: "52px 44px",
+                padding: "clamp(20px,5vw,52px) clamp(16px,5vw,44px)",
                 textAlign: "center",
                 marginTop: 12,
                 background: "#ffffff"
               }}
             >
-              <div className="font-bubbly" style={{ fontSize: 28, fontWeight: 700, color: "#2d2950", marginBottom: 8, lineHeight: 1.3 }}>
+              <div className="font-bubbly" style={{ fontSize: "clamp(20px,5vw,28px)", fontWeight: 700, color: "#2d2950", marginBottom: 8, lineHeight: 1.3 }}>
                 What story shall we tell today?
               </div>
-              <div style={{ fontSize: 16, color: "#2d2950", marginBottom: 32, fontWeight: 600 }}>
+              <div style={{ fontSize: "clamp(13px,3vw,16px)", color: "#2d2950", marginBottom: "clamp(16px,4vw,32px)", fontWeight: 600 }}>
                 Describe a little adventure and watch it come to life
               </div>
               <textarea
@@ -415,8 +415,8 @@ useEffect(() => {
                 onKeyDown={e => e.key === "Enter" && e.metaKey && generate()}
                 className="sticker"
                 style={{
-                  width: "100%", minHeight: 110, background: "#F0FFF4",
-                  color: "#2d2950", padding: "18px 20px", fontSize: 18,
+                  width: "100%", minHeight: 100, background: "#F0FFF4",
+                  color: "#2d2950", padding: "clamp(12px,3vw,18px) clamp(12px,3vw,20px)", fontSize: "clamp(14px,3vw,18px)",
                   fontFamily: "'Nunito', sans-serif", fontWeight: 600, lineHeight: 1.7, resize: "vertical",
                   outline: "none", boxSizing: "border-box",
                   
@@ -429,10 +429,10 @@ useEffect(() => {
                 disabled={loading || !prompt.trim()}
                 className="sticker font-bubbly"
                 style={{
-                  marginTop: 24, padding: "15px 48px",
+                  marginTop: "clamp(12px,3vw,24px)", padding: "clamp(10px,2.5vw,15px) clamp(24px,5vw,48px)",
                   background: loading ? "#e0ddf0" : "#FFCF54",
                   color: "#2d2950",
-                  fontSize: 22, fontWeight: 700, letterSpacing: "1px",
+                  fontSize: "clamp(16px,4vw,22px)", fontWeight: 700, letterSpacing: "1px",
                   cursor: loading ? "not-allowed" : "pointer",
                 }}
               >
@@ -452,7 +452,7 @@ useEffect(() => {
 
         {/* === STORY BOOK VIEW === */}
         {story && (
-          <div style={{ margin: "0 60px", padding: "0 32px 60px" }}>
+          <div style={{ margin: "0 auto", maxWidth: "900px", padding: "0 clamp(8px,3vw,32px) 60px" }}>
             <motion.div
               initial={{ y: 20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
@@ -467,18 +467,18 @@ useEffect(() => {
                 className="sticker"
                 style={{
                   background: "linear-gradient(135deg, #ffffff 0%, #FFF9E6 50%, #F0FFF4 100%)",
-                  padding: "40px 44px 32px",
+                  padding: "clamp(20px,5vw,40px) clamp(16px,5vw,44px) clamp(16px,4vw,32px)",
                   textAlign: "center",
-                  marginBottom: 32,
+                  marginBottom: "clamp(16px,4vw,32px)",
                   zIndex: 2,
                   position: "relative",
                   overflow: "hidden"                }}
               >
                 {/* Decorative corner emojis */}
-                <div style={{ position: "absolute", top: 12, left: 16, fontSize: 24, opacity: 0.6, transform: "rotate(-15deg)" }}>📖</div>
-                <div style={{ position: "absolute", top: 12, right: 16, fontSize: 24, opacity: 0.6, transform: "rotate(15deg)" }}>✨</div>
-                <div style={{ position: "absolute", bottom: 10, left: 20, fontSize: 20, opacity: 0.5, transform: "rotate(10deg)" }}>🌈</div>
-                <div style={{ position: "absolute", bottom: 10, right: 20, fontSize: 20, opacity: 0.5, transform: "rotate(-10deg)" }}>⭐</div>
+                <div style={{ position: "absolute", top: 12, left: 16, fontSize: "clamp(16px,4vw,24px)", opacity: 0.6, transform: "rotate(-15deg)" }}>📖</div>
+                <div style={{ position: "absolute", top: 12, right: 16, fontSize: "clamp(16px,4vw,24px)", opacity: 0.6, transform: "rotate(15deg)" }}>✨</div>
+                <div style={{ position: "absolute", bottom: 10, left: 20, fontSize: "clamp(14px,3vw,20px)", opacity: 0.5, transform: "rotate(10deg)" }}>🌈</div>
+                <div style={{ position: "absolute", bottom: 10, right: 20, fontSize: "clamp(14px,3vw,20px)", opacity: 0.5, transform: "rotate(-10deg)" }}>⭐</div>
 
               
 
@@ -488,7 +488,7 @@ useEffect(() => {
                   transition={{ delay: 0.15, duration: 0.4 }}
                   className="font-bubbly"
                   style={{
-                    margin: 0, fontSize: 40, fontWeight: 700,
+                    margin: 0, fontSize: "clamp(24px,6vw,40px)", fontWeight: 700,
                     color: "#2d2950", lineHeight: 1.2,
                     textShadow: "2px 2px 0px rgba(108,99,255,0.15)"
                   }}
@@ -502,7 +502,7 @@ useEffect(() => {
                   transition={{ delay: 0.25, duration: 0.4 }}
                   className="font-bubbly"
                   style={{
-                    margin: "16px auto 0", color: "#4a4568", fontSize: 17,
+                    margin: "clamp(8px,3vw,16px) auto 0", color: "#4a4568", fontSize: "clamp(14px,3vw,17px)",
                     fontWeight: 600, lineHeight: 1.6, maxWidth: 520,
                     background: "linear-gradient(135deg, #F0FFF4, #EEF2FF)",
                     display: "inline-block", padding: "8px 24px",
@@ -519,7 +519,7 @@ useEffect(() => {
                   initial={{ y: 10, opacity: 0 }}
                   animate={{ y: 0, opacity: 1 }}
                   transition={{ delay: 0.35, duration: 0.4 }}
-                  style={{ display: "flex", justifyContent: "center", gap: 24, marginTop: 28 }}
+                  style={{ display: "flex", justifyContent: "center", gap: "clamp(12px,3vw,24px)", marginTop: "clamp(16px,4vw,28px)", flexWrap: "wrap" }}
                 >
                   <motion.button
                     whileHover={{ scale: 1.08, y: -2 }}
@@ -527,13 +527,13 @@ useEffect(() => {
                     onClick={startCinemaMode}
                     className="sticker font-bubbly"
                     style={{
-                      padding: "12px 28px",
+                      padding: "clamp(8px,2.5vw,12px) clamp(16px,4vw,28px)",
                       background: "linear-gradient(135deg, #6C63FF, #8B7FFF)",
                       color: "#ffffff", cursor: "pointer",
-                      fontSize: 17, fontWeight: 700,
+                      fontSize: "clamp(14px,3vw,17px)", fontWeight: 700,
                       letterSpacing: "2px",
-                      display: "flex", alignItems: "center", gap: 10,
-                      boxShadow: "4px 4px 0px #2d2950"
+                      display: "flex", alignItems: "center", gap: "clamp(6px,2vw,10px)",
+                      boxShadow: "3px 3px 0px #2d2950"
                     }}
                   >
                     ▶ Watch Story
@@ -547,14 +547,14 @@ useEffect(() => {
                     }}
                     className="sticker font-bubbly"
                     style={{
-                      padding: "12px 28px",
+                      padding: "clamp(8px,2.5vw,12px) clamp(16px,4vw,28px)",
                       background: "linear-gradient(135deg, #FF8BA7, #FFB3C6)",
                       color: "#ffffff",
-                      fontSize: 17, fontWeight: 700,
+                      fontSize: "clamp(14px,3vw,17px)", fontWeight: 700,
                       letterSpacing: "2px",
                       cursor: "pointer",
-                      display: "flex", alignItems: "center", gap: 10,
-                      boxShadow: "4px 4px 0px #2d2950"
+                      display: "flex", alignItems: "center", gap: "clamp(6px,2vw,10px)",
+                      boxShadow: "3px 3px 0px #2d2950"
                     }}
                   >
                     ✦ New Story
@@ -565,7 +565,7 @@ useEffect(() => {
               {/* Book page */}
               <div className="sticker" style={{
                 background: "#ffffff",
-                padding: "40px 48px",
+                padding: "clamp(16px,4vw,40px) clamp(16px,5vw,48px)",
                 position: "relative",
                 zIndex: 1,
                 borderTopWidth: 6,
@@ -574,14 +574,14 @@ useEffect(() => {
                 {scene && (
                   <div style={{ animation: "fadeIn 0.4s ease" }}>
                     {/* Page number pill */}
-                    <div style={{ textAlign: "center", marginBottom: 20 }}>
+                    <div style={{ textAlign: "center", marginBottom: "clamp(12px,3vw,20px)" }}>
                       <span className="font-bubbly sticker" style={{
                         display: "inline-block",
                         background: accentColor,
                         color: "#ffffff",
-                        fontSize: 14, fontWeight: 700,
-                        padding: "6px 20px",
-                        boxShadow: "3px 3px 0px #2d2950",
+                        fontSize: "clamp(12px,2.5vw,14px)", fontWeight: 700,
+                        padding: "clamp(4px,1.5vw,6px) clamp(12px,4vw,20px)",
+                        boxShadow: "2px 2px 0px #2d2950",
                         textTransform: "uppercase",
                         letterSpacing: "1px"
                       }}>
@@ -595,19 +595,19 @@ useEffect(() => {
                       className="sticker"
                       style={{
                         background: "#FFF9E6",
-                        padding: 16,
+                        padding: "clamp(12px,3vw,16px)",
                         display: "flex", justifyContent: "center", alignItems: "center",
-                        minHeight: 280,
-                        marginBottom: 32,
+                        minHeight: "clamp(200px,50vw,280px)",
+                        marginBottom: "clamp(16px,4vw,32px)",
                         position: "relative",
                         overflow: "hidden"
                       }}
                     >
        
                         {imagesLoading && !currentSceneImage ? (
-                        <div style={{  color: "#9ca3af", fontSize: 15, padding: 48, textAlign: "center" }}>
+                        <div style={{  color: "#9ca3af", fontSize: "clamp(13px,3vw,15px)", padding: "clamp(24px,4vw,48px)", textAlign: "center" }}>
                           <div style={{
-                            width: 48, height: 48, borderRadius: "50%",
+                            width: "clamp(36px,8vw,48px)", height: "clamp(36px,8vw,48px)", borderRadius: "50%",
                             border: `3px solid ${accentColor}30`,
                             borderTopColor: accentColor,
                             animation: "spin 0.8s linear infinite",
@@ -632,17 +632,17 @@ useEffect(() => {
                             }
                           }}
                           style={{
-                            width: "80%", maxHeight: 600,
+                            width: "90%", maxHeight: "clamp(200px,60vw,600px)",
                             objectFit: "fill",
-                            borderRadius: 14,
+                            borderRadius: "clamp(8px,2vw,14px)",
                             boxShadow: `0 8px 30px ${accentColor}20`
                           }}
                         />
                       </AnimatePresence>
                       ) : (
-                        <div style={{ color: "#b0aec4", fontSize: 14, padding: 48, textAlign: "center" }}>
+                        <div style={{ color: "#b0aec4", fontSize: "clamp(12px,2.5vw,14px)", padding: "clamp(24px,4vw,48px)", textAlign: "center" }}>
                           <div style={{
-                            width: 52, height: 52, borderRadius: 16,
+                            width: "clamp(40px,10vw,52px)", height: "clamp(40px,10vw,52px)", borderRadius: "clamp(12px,2vw,16px)",
                             background: `${accentColor}12`,
                             display: "flex", alignItems: "center", justifyContent: "center",
                             margin: "0 auto 12px"
@@ -662,10 +662,10 @@ useEffect(() => {
                           textAlign: "center", zIndex: 10, animation: "fadeIn 0.5s ease"
                         }}>
                           <div className="sticker font-bubbly" style={{
-                            display: "inline-block", padding: "12px 24px",
+                            display: "inline-block", padding: "clamp(8px,2.5vw,12px) clamp(16px,4vw,24px)",
                             background: "#ffffff",
                             color: "#2d2950",
-                            fontSize: isCinemaMode ? 32 : 24, lineHeight: 1.4,
+                            fontSize: isCinemaMode ? "clamp(20px,5vw,32px)" : "clamp(16px,4vw,24px)", lineHeight: 1.4,
                             fontWeight: 700,
                             maxWidth: "90%", wordWrap: "break-word"
                           }}>
@@ -710,11 +710,11 @@ useEffect(() => {
                           }}
                           className="sticker font-bubbly"
                           style={{
-                            position: "absolute", top: 16, right: 16,
+                            position: "absolute", top: "clamp(8px,2vw,16px)", right: "clamp(8px,2vw,16px)",
                             background: "#FF8BA7", color: "#2d2950",
-                            padding: "8px 20px", cursor: "pointer",
-                            zIndex: 105, fontWeight: 700, fontSize: 16,
-                            boxShadow: "3px 3px 0px #2d2950"
+                            padding: "clamp(6px,1.5vw,8px) clamp(12px,3vw,20px)", cursor: "pointer",
+                            zIndex: 105, fontWeight: 700, fontSize: "clamp(12px,3vw,16px)",
+                            boxShadow: "2px 2px 0px #2d2950"
                           }}
                         >
                           Exit
@@ -725,9 +725,10 @@ useEffect(() => {
                     {/* Audio Controls */}
                     <div className="sticker" style={{
                       background: "#F0FFF4",
-                      padding: "16px 24px",
-                      display: "flex", alignItems: "center", gap: 16,
-                      marginBottom: 24,
+                      padding: "clamp(12px,3vw,16px) clamp(12px,4vw,24px)",
+                      display: "flex", alignItems: "center", gap: "clamp(8px,3vw,16px)",
+                      marginBottom: "clamp(12px,3vw,24px)",
+                      flexWrap: "wrap"
                     }}>
                       <button
                         onClick={() => {
@@ -741,20 +742,20 @@ useEffect(() => {
                         style={{
                           background: "#FF8BA7",
                           color: "#2d2950",
-                          width: 48, height: 48, borderRadius: "50%",
-                          fontSize: 20, cursor: "pointer",
+                          width: "clamp(40px,10vw,48px)", height: "clamp(40px,10vw,48px)", borderRadius: "50%",
+                          fontSize: "clamp(14px,3vw,20px)", cursor: "pointer",
                           display: "flex", alignItems: "center", justifyContent: "center",
-                          boxShadow: "3px 3px 0px #2d2950",
+                          boxShadow: "2px 2px 0px #2d2950",
                           flexShrink: 0,
                           padding: 0
                         }}
                       >
                         {activeNarrationIndex === activeScene && !isPaused ? "⏸" : "▶"}
                       </button>
-                      <div className="font-bubbly" style={{ fontSize: 16, color: "#2d2950", fontWeight: 700, width: 48 }}>
+                      <div className="font-bubbly" style={{ fontSize: "clamp(12px,2.5vw,16px)", color: "#2d2950", fontWeight: 700, minWidth: "clamp(40px,8vw,48px)" }}>
                         {currentNarrationTime.toFixed(1)}s
                       </div>
-                      <div className="sticker" style={{ flex: 1, height: 16, background: "#ffffff", borderRadius: 16, position: "relative", padding: 0, border: "3px solid #2d2950", boxShadow: "inset 2px 2px 0px rgba(0,0,0,0.1), 2px 2px 0px #2d2950" }}>
+                      <div className="sticker" style={{ flex: 1, minWidth: 100, height: "clamp(12px,2vw,16px)", background: "#ffffff", borderRadius: 16, position: "relative", padding: 0, border: "2px solid #2d2950", boxShadow: "inset 1px 1px 0px rgba(0,0,0,0.1), 1px 1px 0px #2d2950" }}>
                         <div style={{
                           position: "absolute", left: -1, top: -1, bottom: -1,
                           width: `${Math.min(100, (currentNarrationTime / (story.scenes[activeScene]?.duration_seconds || 10)) * 100)}%`,
@@ -764,8 +765,8 @@ useEffect(() => {
                         }} />
                       </div>
                       {/* Narration Volume */}
-                      <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill={accentColor} stroke="none">
+                      <div style={{ display: "flex", alignItems: "center", gap: "clamp(4px,1.5vw,6px)", minWidth: "auto" }}>
+                        <svg width="clamp(12px,3vw,16px)" height="clamp(12px,3vw,16px)" viewBox="0 0 24 24" fill={accentColor} stroke="none">
                           <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/>
                         </svg>
                         <input
@@ -778,7 +779,7 @@ useEffect(() => {
                             if (audioRef.current) audioRef.current.volume = vol;
                           }}
                           style={{
-                            width: 64, height: 4, appearance: "none", WebkitAppearance: "none",
+                            width: "clamp(40px,15vw,64px)", height: 4, appearance: "none", WebkitAppearance: "none",
                             background: `linear-gradient(90deg, ${accentColor} ${narrationVolume * 100}%, ${accentColor}20 ${narrationVolume * 100}%)`,
                             borderRadius: 4, outline: "none", cursor: "pointer"
                           }}
@@ -789,10 +790,11 @@ useEffect(() => {
                         onClick={toggleFullscreen}
                         className="sticker font-bubbly"
                         style={{
-                          background: accentColor, border: "4px solid #2d2950", color: "#2d2950",
-                          padding: "8px 16px", borderRadius: 12,
-                          fontSize: 14, fontWeight: 700, cursor: "pointer",
-                          boxShadow: "3px 3px 0px #2d2950"
+                          background: accentColor, border: "2px solid #2d2950", color: "#2d2950",
+                          padding: "clamp(6px,1.5vw,8px) clamp(12px,2.5vw,16px)", borderRadius: "clamp(8px,2vw,12px)",
+                          fontSize: "clamp(12px,2.5vw,14px)", fontWeight: 700, cursor: "pointer",
+                          boxShadow: "2px 2px 0px #2d2950",
+                          whiteSpace: "nowrap"
                         }}
                       >
                         {isFullscreen ? "Exit" : "⛶"}
@@ -802,11 +804,11 @@ useEffect(() => {
                     {/* Narration */}
                     <div className="sticker" style={{
                       background: "#F0FFF4",
-                      padding: "24px 32px",
-                      marginBottom: 16
+                      padding: "clamp(16px,4vw,24px) clamp(16px,5vw,32px)",
+                      marginBottom: "clamp(12px,3vw,16px)"
                     }}>
                       <p className="font-bubbly" style={{
-                        margin: 0, fontSize: 20, lineHeight: 1.6,
+                        margin: 0, fontSize: "clamp(14px,3.5vw,20px)", lineHeight: 1.6,
                         color: "#2d2950", fontWeight: 600, textAlign: "center"
                       }}>
                         {scene.narration}
@@ -816,18 +818,18 @@ useEffect(() => {
                     {/* Ending note on last page */}
                     {activeScene === totalScenes - 1 && story.ending_note && (
                       <div className="sticker" style={{
-                        marginTop: 24, padding: "24px",
+                        marginTop: "clamp(12px,3vw,24px)", padding: "clamp(16px,4vw,24px)",
                         textAlign: "center",
                         background: "#FFF9E6",
                       }}>
                         <div style={{
-                          fontSize: 40,
-                          margin: "0 auto 12px",
+                          fontSize: "clamp(28px,8vw,40px)",
+                          margin: "0 auto clamp(8px,2vw,12px)",
                           display: "flex", alignItems: "center", justifyContent: "center",
                           filter: "drop-shadow(2px 2px 0px #2d2950)"
                         }}>
                         </div>
-                        <div className="font-bubbly" style={{ color: "#2d2950", fontSize: 22, fontWeight: 600, lineHeight: 1.5 }}>
+                        <div className="font-bubbly" style={{ color: "#2d2950", fontSize: "clamp(16px,4vw,22px)", fontWeight: 600, lineHeight: 1.5 }}>
                           {story.ending_note}
                         </div>
                       </div>
@@ -837,9 +839,9 @@ useEffect(() => {
 
                 {/* Navigation */}
                 <div style={{
-                  display: "flex", justifyContent: "space-between", alignItems: "center",
-                  marginTop: 32, paddingTop: 24,
-                  borderTop: "4px dashed #e0ddf0"
+                  display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "clamp(8px,2vw,16px)",
+                  marginTop: "clamp(16px,4vw,32px)", paddingTop: "clamp(12px,3vw,24px)",
+                  borderTop: "3px dashed #e0ddf0"
                 }}>
                   <motion.button
                     whileHover={{ scale: activeScene === 0 ? 1 : 1.05 }}
@@ -847,19 +849,19 @@ useEffect(() => {
                     disabled={activeScene === 0}
                     className="sticker font-bubbly"
                     style={{
-                      padding: "12px 28px",
+                      padding: "clamp(8px,2vw,12px) clamp(16px,3vw,28px)",
                       background: activeScene === 0 ? "#e0ddf0" : "#6EE7B7",
                       color: "#2d2950",
-                      fontSize: 18, fontWeight: 700,
+                      fontSize: "clamp(14px,3vw,18px)", fontWeight: 700,
                       cursor: activeScene === 0 ? "not-allowed" : "pointer",
-                      display: "flex", alignItems: "center", gap: 8,
+                      display: "flex", alignItems: "center", gap: "clamp(4px,1.5vw,8px)",
                       opacity: activeScene === 0 ? 0.6 : 1
                     }}
                   >
                     ⬅ Previous
                   </motion.button>
 
-                  <div style={{ display: "flex", gap: 12 }}>
+                  <div style={{ display: "flex", gap: "clamp(6px,1.5vw,12px)", flexWrap: "wrap", justifyContent: "center", flex: "0 1 auto" }}>
                     {story.scenes?.map((_, i) => (
                       <motion.div
                         key={i}
@@ -869,8 +871,8 @@ useEffect(() => {
                         }}
                         className="sticker"
                         style={{
-                          width: activeScene === i ? 24 : 16,
-                          height: activeScene === i ? 24 : 16,
+                          width: activeScene === i ? "clamp(18px,4vw,24px)" : "clamp(12px,3vw,16px)",
+                          height: activeScene === i ? "clamp(18px,4vw,24px)" : "clamp(12px,3vw,16px)",
                           borderRadius: "50%",
                           background: activeScene === i
                             ? "#FFCF54"
@@ -888,12 +890,12 @@ useEffect(() => {
                     disabled={activeScene === totalScenes - 1}
                     className="sticker font-bubbly"
                     style={{
-                      padding: "12px 28px",
+                      padding: "clamp(8px,2vw,12px) clamp(16px,3vw,28px)",
                       background: activeScene === totalScenes - 1 ? "#e0ddf0" : "#6EE7B7",
                       color: "#2d2950",
-                      fontSize: 18, fontWeight: 700,
+                      fontSize: "clamp(14px,3vw,18px)", fontWeight: 700,
                       cursor: activeScene === totalScenes - 1 ? "not-allowed" : "pointer",
-                      display: "flex", alignItems: "center", gap: 8,
+                      display: "flex", alignItems: "center", gap: "clamp(4px,1.5vw,8px)",
                       opacity: activeScene === totalScenes - 1 ? 0.6 : 1
                     }}
                   >
